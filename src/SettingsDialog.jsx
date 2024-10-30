@@ -1,6 +1,7 @@
 import React from 'react';
 import {X} from 'lucide-react';
 import FontSelector from './FontSelector';
+import ColorSelector from './ColorSelector';
 
 const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
     const handleChange = (key, value, min, max) => {
@@ -18,6 +19,13 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
         });
     };
 
+    const handleColorChange = (color) => {
+        onSettingsChange({
+            ...settings,
+            numberColor: color
+        });
+    };
+
     if (!open) return null;
 
     return (
@@ -32,10 +40,10 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                 role="dialog"
                 aria-modal="true"
                 className="relative w-full max-w-lg mx-4
-          bg-white dark:bg-slate-900
-          rounded-2xl shadow-xl
-          border border-gray-200 dark:border-slate-800
-          animate-fade-in"
+                    bg-white dark:bg-slate-900
+                    rounded-2xl shadow-xl
+                    border border-gray-200 dark:border-slate-800
+                    animate-fade-in"
             >
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-800">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-50">
@@ -44,8 +52,8 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                     <button
                         onClick={onClose}
                         className="p-2 rounded-lg transition-colors
-              hover:bg-gray-100 dark:hover:bg-slate-800
-              text-gray-500 dark:text-slate-400"
+                            hover:bg-gray-100 dark:hover:bg-slate-800
+                            text-gray-500 dark:text-slate-400"
                     >
                         <X className="w-5 h-5"/>
                     </button>
@@ -61,6 +69,17 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                             <FontSelector
                                 value={settings.fontFamily}
                                 onChange={handleFontChange}
+                            />
+                        </div>
+
+                        {/* Color Selection */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700 dark:text-slate-300">
+                                数字颜色
+                            </label>
+                            <ColorSelector
+                                value={settings.numberColor}
+                                onChange={handleColorChange}
                             />
                         </div>
 
@@ -87,9 +106,9 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                                             }
                                         }}
                                         className="w-20 px-2 py-1 text-right text-sm
-                      bg-white dark:bg-slate-900
-                      border border-gray-200 dark:border-slate-700
-                      rounded-md focus:ring-2 focus:ring-blue-500/30"
+                                            bg-white dark:bg-slate-900
+                                            border border-gray-200 dark:border-slate-700
+                                            rounded-md focus:ring-2 focus:ring-blue-500/30"
                                     />
                                 </div>
                                 <input
@@ -100,8 +119,8 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                                     value={settings[id]}
                                     onChange={(e) => handleChange(id, Number(e.target.value), min, max)}
                                     className="w-full h-2 rounded-lg appearance-none cursor-pointer
-                    bg-gray-200 dark:bg-slate-700
-                    accent-blue-500 dark:accent-blue-400"
+                                        bg-gray-200 dark:bg-slate-700
+                                        accent-blue-500 dark:accent-blue-400"
                                 />
                             </div>
                         ))}
@@ -109,15 +128,15 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                 </div>
 
                 <div className="flex justify-end gap-3 p-6
-          border-t border-gray-200 dark:border-slate-800
-          bg-gray-50 dark:bg-slate-800/50 rounded-b-2xl"
+                    border-t border-gray-200 dark:border-slate-800
+                    bg-gray-50 dark:bg-slate-800/50 rounded-b-2xl"
                 >
                     <button
                         onClick={onClose}
                         className="px-4 py-2 text-sm font-medium rounded-lg
-              bg-blue-500 hover:bg-blue-600
-              dark:bg-blue-600 dark:hover:bg-blue-700
-              text-white"
+                            bg-blue-500 hover:bg-blue-600
+                            dark:bg-blue-600 dark:hover:bg-blue-700
+                            text-white"
                     >
                         完成
                     </button>

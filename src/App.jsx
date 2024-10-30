@@ -15,7 +15,8 @@ const DEFAULT_SETTINGS = {
     increaseBy: 1,
     decreaseBy: 2,
     fontSize: 72,
-    fontFamily: 'system-ui'
+    fontFamily: 'system-ui',
+    numberColor: 'currentColor'
 };
 
 const DEFAULT_STATS = {
@@ -164,6 +165,7 @@ const App = () => {
                         number={displayNumber}
                         fontSize={settings.fontSize}
                         fontFamily={settings.fontFamily}
+                        numberColor={settings.numberColor}
                     />
                 );
 
