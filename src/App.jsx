@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = {
     length: 3,
     interval: 1000,
     increaseBy: 1,
-    decreaseBy: 1,
+    decreaseBy: 2,
     fontSize: 72
 };
 
