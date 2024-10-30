@@ -4,6 +4,7 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
     const [digits, setDigits] = useState(Array(length).fill(''));
     const [focusIndex, setFocusIndex] = useState(0);
     const inputRefs = Array(length).fill(0).map(() => useRef());
+    const submitTimeoutRef = useRef(null);
 
     // Reset when length changes
     useEffect(() => {
@@ -18,11 +19,28 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
         const newValue = digits.join('');
         onChange(newValue);
 
-        // 当所有数字都输入完成时，自动提交
+        // Clear any pending submit timeout
+        if (submitTimeoutRef.current) {
+            clearTimeout(submitTimeoutRef.current);
+        }
+
+        // 当所有数字都输入完成时，延迟一帧后自动提交
+        // 这确保父组件的状态已经更新
         if (newValue.length === length && !digits.includes('')) {
-            onSubmit?.();
+            submitTimeoutRef.current = setTimeout(() => {
+                onSubmit?.();
+            }, 0);
         }
     }, [digits, length, onChange, onSubmit]);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (submitTimeoutRef.current) {
+                clearTimeout(submitTimeoutRef.current);
+            }
+        };
+    }, []);
 
     const handleDigitChange = (index, value) => {
         // 只允许输入数字
