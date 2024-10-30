@@ -55,7 +55,13 @@ const App = () => {
 
     useEffect(() => {
         const handleKeyPress = (e) => {
-            if (e.key === 'Enter') {
+            // 防止在输入状态下触发快捷键
+            if (e.target.tagName === 'INPUT') {
+                return;
+            }
+
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault(); // 防止页面滚动
                 switch (gameState) {
                     case 'idle':
                         startGame();
@@ -160,7 +166,18 @@ const App = () => {
                         className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-blue-50/20 to-gray-50 dark:from-slate-950 dark:via-blue-900/5 dark:to-slate-950">
                         <div className="flex flex-col items-center gap-8 p-4">
                             <StatsPanel stats={stats}/>
-                            <Button onClick={startGame}>开始游戏</Button>
+                            <div className="flex flex-col items-center gap-2">
+                                <Button onClick={startGame} className="relative">
+                                    开始游戏
+                                </Button>
+                                <div className="flex items-center gap-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <kbd
+                                        className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
+                                        空格键
+                                    </kbd>
+                                    <span>开始游戏</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );
@@ -201,12 +218,21 @@ const App = () => {
                                 correctNumber={currentNumber}
                                 currentLength={settings.length}
                             />
-                            <Button
-                                onClick={resetGame}
-                                className="px-8 py-3 text-lg"
-                            >
-                                继续挑战
-                            </Button>
+                            <div className="flex flex-col items-center gap-2">
+                                <Button
+                                    onClick={resetGame}
+                                    className="px-8 py-3 text-lg"
+                                >
+                                    继续挑战
+                                </Button>
+                                <div className="flex items-center gap-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <kbd
+                                        className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
+                                        空格键
+                                    </kbd>
+                                    <span>继续挑战</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );
