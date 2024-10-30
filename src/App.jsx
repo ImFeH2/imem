@@ -7,13 +7,15 @@ import SettingsDialog from './SettingsDialog';
 import StatsPanel from './StatsPanel';
 import {Settings} from 'lucide-react';
 import './App.css';
+import NumberDisplay from "./NumberDisplay";
 
 const DEFAULT_SETTINGS = {
     length: 3,
     interval: 1000,
     increaseBy: 1,
     decreaseBy: 2,
-    fontSize: 72
+    fontSize: 72,
+    fontFamily: 'system-ui'
 };
 
 const DEFAULT_STATS = {
@@ -151,29 +153,18 @@ const App = () => {
                         className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-blue-50/20 to-gray-50 dark:from-slate-950 dark:via-blue-900/5 dark:to-slate-950">
                         <div className="flex flex-col items-center gap-8 p-4">
                             <StatsPanel stats={stats}/>
-                            <Button
-                                onClick={startGame}
-                                className="start-button"
-                                aria-label="Start Game"
-                            >
-                                开始游戏
-                            </Button>
+                            <Button onClick={startGame}>开始游戏</Button>
                         </div>
                     </div>
                 );
 
             case 'playing':
                 return (
-                    <div
-                        className="fixed inset-0 z-10 flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
-                        <div
-                            className="number-display"
-                            style={{fontSize: `${settings.fontSize}px`}}
-                            aria-live="polite"
-                        >
-                            {displayNumber}
-                        </div>
-                    </div>
+                    <NumberDisplay
+                        number={displayNumber}
+                        fontSize={settings.fontSize}
+                        fontFamily={settings.fontFamily}
+                    />
                 );
 
             case 'input':
@@ -194,12 +185,9 @@ const App = () => {
                     <div
                         className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
                         <div className="flex flex-col items-center gap-6 p-4">
-                            <div
-                                className={`result-message text-2xl font-bold ${
-                                    userInput === currentNumber ? 'text-green-500' : 'text-red-500 error'
-                                }`}
-                                role="alert"
-                            >
+                            <div className={`result-message text-2xl font-bold ${
+                                userInput === currentNumber ? 'text-green-500' : 'text-red-500 error'
+                            }`}>
                                 {userInput === currentNumber ? (
                                     <span>正确！继续下一关</span>
                                 ) : (
@@ -209,12 +197,7 @@ const App = () => {
                             <div className="text-lg">
                                 当前长度: {settings.length}
                             </div>
-                            <Button
-                                onClick={resetGame}
-                                className="continue-button"
-                            >
-                                继续
-                            </Button>
+                            <Button onClick={resetGame}>继续</Button>
                         </div>
                     </div>
                 );
@@ -226,13 +209,8 @@ const App = () => {
 
     return (
         <div className="relative min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
-            {/* 固定在顶部的主题切换按钮 */}
             <ThemeToggle/>
-
-            {/* 游戏内容 */}
             {renderGameContent()}
-
-            {/* 固定在右下角的设置按钮 */}
             <button
                 onClick={() => setShowSettings(true)}
                 className="fixed bottom-4 right-4 z-50 p-3 rounded-lg transition-all duration-200
@@ -241,12 +219,9 @@ const App = () => {
           text-gray-900 dark:text-slate-50
           border border-blue-200 dark:border-slate-700
           shadow-sm hover:scale-110"
-                aria-label="Settings"
             >
                 <Settings className="w-5 h-5"/>
             </button>
-
-            {/* 设置对话框 */}
             <SettingsDialog
                 settings={settings}
                 onSettingsChange={setSettings}
