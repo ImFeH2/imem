@@ -1,41 +1,49 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Moon, Sun} from 'lucide-react';
 
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState(() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
+    // 获取当前主题
+    const getTheme = () => {
+        if (typeof localStorage !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
         }
-        if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-        return 'light';
-    });
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
 
-    useEffect(() => {
+    // 设置主题
+    const setTheme = (theme) => {
         const root = window.document.documentElement;
-        if (theme === 'dark') {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
-        }
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
         localStorage.setItem('theme', theme);
-    }, [theme]);
+    };
 
+    // 初始化主题
+    useEffect(() => {
+        setTheme(getTheme());
+    }, []);
+
+    // 切换主题
     const toggleTheme = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
+        const currentTheme = getTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
     };
 
     return (
         <button
             onClick={toggleTheme}
-            className="fixed top-4 right-4 p-3 rounded-lg transition-colors duration-200
-        dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-50
-        bg-white hover:bg-gray-100 text-gray-800
-        border border-gray-200 dark:border-slate-700"
+            className="fixed top-4 right-4 z-50 p-3 rounded-lg transition-all duration-200
+        bg-blue-100 dark:bg-slate-800
+        hover:bg-blue-200 dark:hover:bg-slate-700
+        text-gray-900 dark:text-slate-50
+        border border-blue-200 dark:border-slate-700"
             aria-label="Toggle theme"
         >
-            {theme === 'dark' ? (
+            {getTheme() === 'dark' ? (
                 <Sun className="w-5 h-5"/>
             ) : (
                 <Moon className="w-5 h-5"/>

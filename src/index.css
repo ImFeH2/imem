@@ -4,51 +4,33 @@
 
 @layer base {
     body {
-        @apply bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-200;
+        @apply bg-white text-gray-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-200;
     }
 }
 
 @layer components {
     .game-container {
         @apply min-h-screen transition-all duration-500;
-        background: radial-gradient(
-                circle at center,
-                rgba(0, 0, 0, 0.02) 0%,
-                transparent 100%
-        );
-    }
-
-    .dark .game-container {
-        background: radial-gradient(
-                circle at center,
-                rgba(255, 255, 255, 0.05) 0%,
-                transparent 100%
-        );
-    }
-
-    .game-container.playing {
-        background: radial-gradient(
-                circle at center,
-                rgba(59, 130, 246, 0.05) 0%,
-                transparent 100%
-        );
-    }
-
-    .dark .game-container.playing {
-        background: radial-gradient(
-                circle at center,
-                rgba(59, 130, 246, 0.1) 0%,
-                transparent 100%
-        );
     }
 
     .digit-input {
         @apply w-16 h-20 text-3xl text-center
-        bg-white dark:bg-slate-900/50
+        text-gray-900 dark:text-slate-50
+        bg-gray-100 dark:bg-slate-900/50
         border-2 border-gray-200 dark:border-slate-700
         rounded-lg outline-none
-        transition-all duration-300
-        focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50;
+        transition-all duration-300;
+    }
+
+    .digit-input:focus {
+        @apply border-blue-500 ring-2 ring-blue-500/30
+        bg-gray-50 dark:bg-slate-800;
+    }
+
+    @media (max-width: 640px) {
+        .digit-input {
+            @apply w-12 h-16 text-2xl;
+        }
     }
 
     .number-display {
@@ -56,20 +38,29 @@
         text-gray-900 dark:text-slate-50;
     }
 
+    .result-message {
+        @apply animate-fade-in;
+    }
+
+    .result-message.error {
+        @apply animate-shake;
+    }
+
     .button {
         @apply rounded-lg transition-all duration-300
         focus:outline-none focus:ring-2 focus:ring-blue-500/50
-        bg-white hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700
-        border border-gray-200 dark:border-slate-700
-        text-gray-900 dark:text-slate-50;
+        bg-blue-500 hover:bg-blue-600
+        dark:bg-slate-800 dark:hover:bg-slate-700
+        text-white dark:text-slate-50
+        shadow-sm;
     }
 
     .settings-button {
         @apply fixed bottom-4 right-4 p-3
-        bg-white/80 dark:bg-slate-900/80
+        bg-blue-100 dark:bg-slate-900/80
         backdrop-blur-sm
-        hover:bg-gray-50/80 dark:hover:bg-slate-800/80
-        border border-gray-200 dark:border-slate-800
+        hover:bg-blue-200 dark:hover:bg-slate-800/80
+        border border-blue-200 dark:border-slate-800
         rounded-lg transition-all
         hover:scale-110;
     }
@@ -80,13 +71,27 @@
 
     .stat-card {
         @apply flex items-center gap-3
-        bg-white/50 dark:bg-slate-900/50
+        bg-blue-100/90 dark:bg-slate-900/50
         backdrop-blur-sm rounded-lg p-4
-        border border-gray-200 dark:border-slate-800;
+        border border-blue-200 dark:border-slate-800
+        hover:bg-blue-200/90 dark:hover:bg-slate-800/50
+        transition-colors duration-200;
+    }
+
+    .stat-title {
+        @apply text-sm text-gray-600 dark:text-slate-400;
+    }
+
+    .stat-value {
+        @apply text-xl font-bold text-gray-900 dark:text-slate-50;
+    }
+
+    .stat-icon {
+        @apply w-8 h-8 text-blue-500 dark:text-blue-400;
     }
 
     .dialog-overlay {
-        @apply fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm;
+        @apply fixed inset-0 bg-black/10 dark:bg-black/50 backdrop-blur-sm;
     }
 
     .dialog-content {

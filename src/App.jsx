@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from 'react';
 import Button from './components/Button';
 import ThemeToggle from "./components/ThemeToggle.jsx";
 import DigitInput from './DigitInput';
 import SettingsDialog from './SettingsDialog';
 import StatsPanel from './StatsPanel';
+import {Settings} from 'lucide-react';
 import './App.css';
 
 const DEFAULT_SETTINGS = {
@@ -37,6 +39,7 @@ const App = () => {
         const saved = localStorage.getItem('memoryGameStats');
         return saved ? JSON.parse(saved) : DEFAULT_STATS;
     });
+    const [showSettings, setShowSettings] = useState(false);
 
     // 本地存储
     useEffect(() => {
@@ -140,30 +143,29 @@ const App = () => {
         setDisplayNumber('');
     };
 
-    // 渲染游戏内容
     const renderGameContent = () => {
         switch (gameState) {
             case 'idle':
                 return (
-                    <div className="flex flex-col items-center gap-8 p-4">
-                        <StatsPanel stats={stats}/>
-                        <Button
-                            onClick={startGame}
-                            className="start-button"
-                            aria-label="Start Game"
-                        >
-                            开始游戏 (Enter)
-                        </Button>
+                    <div
+                        className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-blue-50/20 to-gray-50 dark:from-slate-950 dark:via-blue-900/5 dark:to-slate-950">
+                        <div className="flex flex-col items-center gap-8 p-4">
+                            <StatsPanel stats={stats}/>
+                            <Button
+                                onClick={startGame}
+                                className="start-button"
+                                aria-label="Start Game"
+                            >
+                                开始游戏
+                            </Button>
+                        </div>
                     </div>
                 );
 
             case 'playing':
                 return (
                     <div
-                        className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800"
-                        role="region"
-                        aria-label="Number Display"
-                    >
+                        className="fixed inset-0 z-10 flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
                         <div
                             className="number-display"
                             style={{fontSize: `${settings.fontSize}px`}}
@@ -177,50 +179,43 @@ const App = () => {
             case 'input':
                 return (
                     <div
-                        className="fixed inset-0 flex flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800"
-                        role="region"
-                        aria-label="Number Input"
-                    >
+                        className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
                         <DigitInput
                             length={settings.length}
                             value={userInput}
                             onChange={setUserInput}
                             onSubmit={checkAnswer}
                         />
-                        <Button
-                            onClick={checkAnswer}
-                            className="submit-button"
-                            disabled={userInput.length !== settings.length}
-                        >
-                            确认 (Enter)
-                        </Button>
                     </div>
                 );
 
             case 'result':
                 return (
-                    <div className="flex flex-col items-center gap-6 p-4">
-                        <div
-                            className={`result-message text-2xl font-bold ${
-                                userInput === currentNumber ? 'text-green-500' : 'text-red-500 error'
-                            }`}
-                            role="alert"
-                        >
-                            {userInput === currentNumber ? (
-                                <span>正确！继续下一关</span>
-                            ) : (
-                                <span>错误！正确答案是 {currentNumber}</span>
-                            )}
+                    <div
+                        className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
+                        <div className="flex flex-col items-center gap-6 p-4">
+                            <div
+                                className={`result-message text-2xl font-bold ${
+                                    userInput === currentNumber ? 'text-green-500' : 'text-red-500 error'
+                                }`}
+                                role="alert"
+                            >
+                                {userInput === currentNumber ? (
+                                    <span>正确！继续下一关</span>
+                                ) : (
+                                    <span>错误！正确答案是 {currentNumber}</span>
+                                )}
+                            </div>
+                            <div className="text-lg">
+                                当前长度: {settings.length}
+                            </div>
+                            <Button
+                                onClick={resetGame}
+                                className="continue-button"
+                            >
+                                继续
+                            </Button>
                         </div>
-                        <div className="text-lg">
-                            当前长度: {settings.length}
-                        </div>
-                        <Button
-                            onClick={resetGame}
-                            className="continue-button"
-                        >
-                            继续 (Enter)
-                        </Button>
                     </div>
                 );
 
@@ -230,12 +225,34 @@ const App = () => {
     };
 
     return (
-        <div className={`game-container ${gameState === 'playing' ? 'playing' : ''}`}>
+        <div className="relative min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300">
+            {/* 固定在顶部的主题切换按钮 */}
             <ThemeToggle/>
-            <div className="min-h-screen flex flex-col items-center justify-center">
-                {renderGameContent()}
-            </div>
-            <SettingsDialog settings={settings} onSettingsChange={setSettings}/>
+
+            {/* 游戏内容 */}
+            {renderGameContent()}
+
+            {/* 固定在右下角的设置按钮 */}
+            <button
+                onClick={() => setShowSettings(true)}
+                className="fixed bottom-4 right-4 z-50 p-3 rounded-lg transition-all duration-200
+          bg-blue-100 dark:bg-slate-800
+          hover:bg-blue-200 dark:hover:bg-slate-700
+          text-gray-900 dark:text-slate-50
+          border border-blue-200 dark:border-slate-700
+          shadow-sm hover:scale-110"
+                aria-label="Settings"
+            >
+                <Settings className="w-5 h-5"/>
+            </button>
+
+            {/* 设置对话框 */}
+            <SettingsDialog
+                settings={settings}
+                onSettingsChange={setSettings}
+                open={showSettings}
+                onClose={() => setShowSettings(false)}
+            />
         </div>
     );
 };
