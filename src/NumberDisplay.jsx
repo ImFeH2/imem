@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 const NumberDisplay = ({number, fontSize, fontFamily, numberColor = 'currentColor'}) => {
-    // 根据字体添加特殊效果的样式
+    const [key, setKey] = useState(0);
+
+    useEffect(() => {
+        setKey(prev => prev + 1);
+    }, [number]);
+
     const getFontEffectStyle = () => {
         const baseStyle = {color: numberColor};
 
@@ -37,7 +42,8 @@ const NumberDisplay = ({number, fontSize, fontFamily, numberColor = 'currentColo
             dark:from-slate-900 dark:via-slate-950 dark:to-slate-900
             transition-colors duration-300">
             <div
-                className="number-display select-none animate-fade-in"
+                key={key}
+                className="number-display select-none animate-number-enter"
                 style={{
                     fontSize: `${fontSize}px`,
                     fontFamily: fontFamily,

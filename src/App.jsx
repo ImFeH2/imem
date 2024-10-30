@@ -14,7 +14,7 @@ const DEFAULT_SETTINGS = {
     interval: 1000,
     increaseBy: 1,
     decreaseBy: 2,
-    fontSize: 72,
+    fontSize: 180,
     fontFamily: 'system-ui',
     numberColor: 'currentColor'
 };
@@ -28,15 +28,15 @@ const DEFAULT_STATS = {
 };
 
 const App = () => {
-    // 状态管理
     const [settings, setSettings] = useState(() => {
         const saved = localStorage.getItem('memoryGameSettings');
         return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
     });
 
-    const [gameState, setGameState] = useState('idle'); // idle, playing, input, result
+    const [gameState, setGameState] = useState('idle');
     const [currentNumber, setCurrentNumber] = useState('');
     const [displayNumber, setDisplayNumber] = useState('');
+    const [displayKey, setDisplayKey] = useState(0); // 新增：用于强制重新渲染
     const [userInput, setUserInput] = useState('');
     const [stats, setStats] = useState(() => {
         const saved = localStorage.getItem('memoryGameStats');
@@ -44,7 +44,6 @@ const App = () => {
     });
     const [showSettings, setShowSettings] = useState(false);
 
-    // 本地存储
     useEffect(() => {
         localStorage.setItem('memoryGameSettings', JSON.stringify(settings));
     }, [settings]);
@@ -53,7 +52,6 @@ const App = () => {
         localStorage.setItem('memoryGameStats', JSON.stringify(stats));
     }, [stats]);
 
-    // 键盘快捷键
     useEffect(() => {
         const handleKeyPress = (e) => {
             if (e.key === 'Enter') {
@@ -76,12 +74,18 @@ const App = () => {
         return () => window.removeEventListener('keydown', handleKeyPress);
     }, [gameState]);
 
-    // 生成随机数字
     const generateNumber = (length) => {
         return Array.from({length}, () => Math.floor(Math.random() * 10)).join('');
     };
 
-    // 开始游戏
+    // 修改：显示单个数字的函数
+    const showDigit = async (digit) => {
+        setDisplayNumber(''); // 先清空
+        await new Promise(resolve => setTimeout(resolve, 50)); // 短暂延迟
+        setDisplayNumber(digit); // 设置新数字
+        setDisplayKey(prev => prev + 1); // 增加 key 强制重新渲染
+    };
+
     const startGame = async () => {
         setGameState('playing');
         const number = generateNumber(settings.length);
@@ -89,9 +93,10 @@ const App = () => {
 
         try {
             for (let i = 0; i < number.length; i++) {
-                setDisplayNumber(number[i]);
+                await showDigit(number[i]);
                 await new Promise(resolve => setTimeout(resolve, settings.interval));
                 if (i < number.length - 1) {
+                    setDisplayNumber('');
                     await new Promise(resolve => setTimeout(resolve, 100));
                 }
             }
@@ -162,6 +167,7 @@ const App = () => {
             case 'playing':
                 return (
                     <NumberDisplay
+                        key={displayKey}
                         number={displayNumber}
                         fontSize={settings.fontSize}
                         fontFamily={settings.fontFamily}
@@ -216,11 +222,11 @@ const App = () => {
             <button
                 onClick={() => setShowSettings(true)}
                 className="fixed bottom-4 right-4 z-50 p-3 rounded-lg transition-all duration-200
-          bg-blue-100 dark:bg-slate-800
-          hover:bg-blue-200 dark:hover:bg-slate-700
-          text-gray-900 dark:text-slate-50
-          border border-blue-200 dark:border-slate-700
-          shadow-sm hover:scale-110"
+                    bg-blue-100 dark:bg-slate-800
+                    hover:bg-blue-200 dark:hover:bg-slate-700
+                    text-gray-900 dark:text-slate-50
+                    border border-blue-200 dark:border-slate-700
+                    shadow-sm hover:scale-110"
             >
                 <Settings className="w-5 h-5"/>
             </button>

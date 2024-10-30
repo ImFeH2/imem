@@ -100,8 +100,34 @@
         max-w-md w-full mx-4 p-6
         border border-gray-200 dark:border-slate-800;
     }
+
+    .number-display {
+        @apply text-8xl font-bold select-none;
+    }
 }
 
+@keyframes number-enter {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(20px);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.1) translateY(-10px);
+    }
+    70% {
+        transform: scale(0.95) translateY(5px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
+@layer utilities {
+    .animate-number-enter {
+        animation: number-enter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+}
 
 /* 数字显示字体 */
 @font-face {
