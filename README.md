@@ -3,11 +3,9 @@
 A modern memory training game that helps you improve your ability to remember sequences of random numbers. Built with
 React and featuring a clean, responsive interface with customizable settings and dark mode support.
 
-## 🚀 Demo
+## 🚀 Demo & Preview
 
 Try the live demo at: [https://www.feh2.im/imem/](https://www.feh2.im/imem/)
-
-# Preview
 
 ![Success Preview](preview/success.gif)
 ![Fail Preview](preview/fail.gif)
