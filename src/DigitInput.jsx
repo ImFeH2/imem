@@ -25,7 +25,6 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
         }
 
         // 当所有数字都输入完成时，延迟一帧后自动提交
-        // 这确保父组件的状态已经更新
         if (newValue.length === length && !digits.includes('')) {
             submitTimeoutRef.current = setTimeout(() => {
                 onSubmit?.();
@@ -79,7 +78,6 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
     const handleKeyDown = (index, e) => {
         switch (e.key) {
             case 'Backspace':
-                // 如果当前输入框为空且不是第一个，删除前一个数字并跳转到前一个输入框
                 if (!digits[index] && index > 0) {
                     e.preventDefault();
                     const newDigits = [...digits];
@@ -90,7 +88,6 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
                 }
                 break;
             case 'ArrowLeft':
-                // 向左移动焦点
                 if (index > 0) {
                     e.preventDefault();
                     inputRefs[index - 1].current?.focus();
@@ -98,7 +95,6 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
                 }
                 break;
             case 'ArrowRight':
-                // 向右移动焦点
                 if (index < length - 1) {
                     e.preventDefault();
                     inputRefs[index + 1].current?.focus();
@@ -106,7 +102,6 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
                 }
                 break;
             default:
-                // 如果输入的是数字，但当前输入框已有数字，则尝试在下一个输入框输入
                 if (/^\d$/.test(e.key) && digits[index] && index < length - 1) {
                     e.preventDefault();
                     handleDigitChange(index + 1, e.key);
@@ -115,7 +110,6 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
         }
     };
 
-    // 处理粘贴事件
     const handlePaste = (e) => {
         e.preventDefault();
         const pastedData = e.clipboardData.getData('text').replace(/\D/g, '');
@@ -123,8 +117,11 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
     };
 
     return (
-        <div className="flex flex-wrap gap-2 justify-center items-center max-w-full px-4" role="group"
-             aria-label="Number input">
+        <div
+            className="flex flex-wrap gap-2 justify-center items-center max-w-full px-4"
+            role="group"
+            aria-label="Number input"
+        >
             {digits.map((digit, index) => (
                 <input
                     key={index}
@@ -137,7 +134,20 @@ const DigitInput = ({length, value, onChange, onSubmit}) => {
                     onChange={(e) => handleDigitChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     onPaste={handlePaste}
-                    className={`digit-input ${focusIndex === index ? 'ring-2 ring-blue-500/50' : ''}`}
+                    className={`
+                        w-16 h-20 text-3xl text-center 
+                        bg-gray-100 dark:bg-slate-900/50 
+                        border-2 border-gray-300 dark:border-slate-700
+                        rounded-lg outline-none transition-all duration-300
+                        text-gray-900 dark:text-slate-50
+                        ${focusIndex === index
+                        ? 'border-blue-500 ring-2 ring-blue-500/30 bg-blue-50 dark:bg-slate-800'
+                        : 'hover:border-gray-400 dark:hover:border-slate-600'
+                    }
+                        focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 
+                        focus:bg-blue-50 dark:focus:bg-slate-800
+                        sm:w-12 sm:h-16 sm:text-2xl
+                    `}
                     aria-label={`Digit ${index + 1}`}
                 />
             ))}
