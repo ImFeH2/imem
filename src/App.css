@@ -1,42 +1,106 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-8px);
+    }
+    75% {
+        transform: translateX(8px);
+    }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.game-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f4ff 0%, #f4f0ff 100%);
+    transition: background 0.5s ease;
 }
 
-.card {
-  padding: 2em;
+.game-container.playing {
+    background: linear-gradient(135deg, #e6eeff 0%, #eee6ff 100%);
 }
 
-.read-the-docs {
-  color: #888;
+.digit-input {
+    width: min(16vw, 4rem);
+    height: min(20vw, 5rem);
+    font-size: min(8vw, 2rem);
+    text-align: center;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.digit-input:focus {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+@media (max-width: 640px) {
+    .digit-input {
+        width: 3rem;
+        height: 4rem;
+        font-size: 1.5rem;
+    }
+}
+
+.number-display {
+    font-size: min(20vw, 5rem);
+    animation: fadeIn 0.3s ease-out;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.result-message {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.result-message.error {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+/* Keyboard focus styles */
+:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Mobile touch feedback */
+@media (hover: none) {
+    .button:active {
+        transform: scale(0.95);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .game-container {
+        background: linear-gradient(135deg, #1a1a2e 0%, #1e1a2e 100%);
+    }
+
+    .game-container.playing {
+        background: linear-gradient(135deg, #1e2438 0%, #241e38 100%);
+    }
+
+    .digit-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .digit-input:focus {
+        background-color: rgba(59, 130, 246, 0.2);
+    }
 }
