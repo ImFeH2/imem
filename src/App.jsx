@@ -8,6 +8,7 @@ import StatsPanel from './StatsPanel';
 import {Settings} from 'lucide-react';
 import './App.css';
 import NumberDisplay from "./NumberDisplay";
+import EnhancedNumberComparison from "@/components/NumberComparison.jsx";
 
 const DEFAULT_SETTINGS = {
     length: 3,
@@ -190,22 +191,22 @@ const App = () => {
 
             case 'result':
                 return (
-                    <div
-                        className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900">
-                        <div className="flex flex-col items-center gap-6 p-4">
-                            <div className={`result-message text-2xl font-bold ${
-                                userInput === currentNumber ? 'text-green-500' : 'text-red-500 error'
-                            }`}>
-                                {userInput === currentNumber ? (
-                                    <span>正确！继续下一关</span>
-                                ) : (
-                                    <span>错误！正确答案是 {currentNumber}</span>
-                                )}
-                            </div>
-                            <div className="text-lg">
-                                当前长度: {settings.length}
-                            </div>
-                            <Button onClick={resetGame}>继续</Button>
+                    <div className="fixed inset-0 z-10 flex flex-col items-center justify-center
+            bg-gradient-to-b from-gray-50 via-white to-gray-50
+            dark:from-slate-900 dark:via-slate-950 dark:to-slate-900
+            overflow-y-auto py-8">
+                        <div className="flex flex-col items-center gap-8 w-full max-w-lg mx-auto">
+                            <EnhancedNumberComparison
+                                userInput={userInput}
+                                correctNumber={currentNumber}
+                                currentLength={settings.length}
+                            />
+                            <Button
+                                onClick={resetGame}
+                                className="px-8 py-3 text-lg"
+                            >
+                                继续挑战
+                            </Button>
                         </div>
                     </div>
                 );
