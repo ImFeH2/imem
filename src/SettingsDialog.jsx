@@ -1,9 +1,7 @@
 import React from 'react';
-import {X} from 'lucide-react';
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 
 const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
-    if (!open) return null;
-
     const handleChange = (key, value) => {
         onSettingsChange({
             ...settings,
@@ -12,160 +10,83 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
     };
 
     return (
-        <>
-            {/* 遮罩层 */}
-            <div
-                className="fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm z-50"
-                onClick={onClose}
-            />
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>游戏设置</DialogTitle>
+                </DialogHeader>
 
-            {/* 对话框 */}
-            <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-        w-full max-w-md mx-4 z-50
-        bg-white dark:bg-slate-900
-        rounded-lg shadow-xl border border-gray-200 dark:border-slate-700">
-
-                {/* 标题栏 */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-50">游戏设置</h2>
-                    <button
-                        onClick={onClose}
-                        className="p-1 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                        aria-label="Close"
-                    >
-                        <X className="w-5 h-5"/>
-                    </button>
-                </div>
-
-                {/* 设置项 */}
-                <div className="p-4 space-y-4">
-                    {/* 长度设置 */}
-                    <div className="setting-item">
-                        <label className="setting-label" htmlFor="length">
-                            初始长度
-                        </label>
-                        <div className="setting-input-wrapper">
-                            <input
-                                type="number"
-                                id="length"
-                                value={settings.length}
-                                onChange={(e) => handleChange('length', Math.max(1, parseInt(e.target.value) || 0))}
-                                min="1"
-                                className="setting-input"
-                            />
-                        </div>
-                    </div>
-
-                    {/* 显示间隔设置 */}
-                    <div className="setting-item">
-                        <label className="setting-label" htmlFor="interval">
-                            显示间隔 (ms)
-                        </label>
-                        <div className="setting-input-wrapper">
-                            <input
-                                type="number"
-                                id="interval"
-                                value={settings.interval}
-                                onChange={(e) => handleChange('interval', Math.max(200, parseInt(e.target.value) || 0))}
-                                min="200"
-                                step="100"
-                                className="setting-input"
-                            />
-                        </div>
-                    </div>
-
-                    {/* 正确增加长度设置 */}
-                    <div className="setting-item">
-                        <label className="setting-label" htmlFor="increaseBy">
-                            正确增加长度
-                        </label>
-                        <div className="setting-input-wrapper">
-                            <input
-                                type="number"
-                                id="increaseBy"
-                                value={settings.increaseBy}
-                                onChange={(e) => handleChange('increaseBy', Math.max(1, parseInt(e.target.value) || 0))}
-                                min="1"
-                                className="setting-input"
-                            />
-                        </div>
-                    </div>
-
-                    {/* 错误减少长度设置 */}
-                    <div className="setting-item">
-                        <label className="setting-label" htmlFor="decreaseBy">
-                            错误减少长度
-                        </label>
-                        <div className="setting-input-wrapper">
-                            <input
-                                type="number"
-                                id="decreaseBy"
-                                value={settings.decreaseBy}
-                                onChange={(e) => handleChange('decreaseBy', Math.max(1, parseInt(e.target.value) || 0))}
-                                min="1"
-                                className="setting-input"
-                            />
-                        </div>
-                    </div>
-
-                    {/* 字体大小设置 */}
-                    <div className="setting-item">
-                        <label className="setting-label" htmlFor="fontSize">
-                            字体大小
-                        </label>
-                        <div className="setting-input-wrapper">
-                            <input
-                                type="number"
-                                id="fontSize"
-                                value={settings.fontSize}
-                                onChange={(e) => handleChange('fontSize', Math.max(12, parseInt(e.target.value) || 0))}
-                                min="12"
-                                max="200"
-                                className="setting-input"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* 页脚 */}
-                <div className="flex justify-end gap-3 p-4 bg-gray-50 dark:bg-slate-800/50 rounded-b-lg">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-sm font-medium
-              text-gray-700 dark:text-slate-300
-              hover:bg-gray-100 dark:hover:bg-slate-800
-              rounded-lg transition-colors"
-                    >
-                        关闭
-                    </button>
-                </div>
-            </div>
-
-            <style jsx>{`
-                .setting-item {
-                    @apply flex flex-col gap-1;
-                }
-
-                .setting-label {
-                    @apply text-sm font-medium text-gray-700 dark:text-slate-300;
-                }
-
-                .setting-input-wrapper {
-                    @apply relative;
-                }
-
-                .setting-input {
-                    @apply w-full px-3 py-2
+                <div className="p-6 space-y-6">
+                    {[
+                        {id: 'length', label: '初始长度', min: 1, step: 1},
+                        {id: 'interval', label: '显示间隔 (ms)', min: 200, step: 100},
+                        {id: 'increaseBy', label: '正确增加长度', min: 1, step: 1},
+                        {id: 'decreaseBy', label: '错误减少长度', min: 1, step: 1},
+                        {id: 'fontSize', label: '字体大小', min: 12, max: 200, step: 1}
+                    ].map(({id, label, min, max, step}) => (
+                        <div key={id} className="space-y-2">
+                            <div className="flex justify-between items-center">
+                                <label
+                                    htmlFor={id}
+                                    className="text-sm font-medium text-gray-700 dark:text-slate-300"
+                                >
+                                    {label}
+                                </label>
+                                <span className="text-sm text-gray-500 dark:text-slate-400">
+                  {settings[id]}
+                </span>
+                            </div>
+                            <div className="relative">
+                                <input
+                                    type="range"
+                                    id={id}
+                                    min={min}
+                                    max={max || min * 20}
+                                    step={step}
+                                    value={settings[id]}
+                                    onChange={(e) => handleChange(id, Number(e.target.value))}
+                                    className="w-full h-2 rounded-lg appearance-none cursor-pointer
+                    bg-gray-200 dark:bg-slate-700
+                    accent-blue-500 dark:accent-blue-400"
+                                />
+                                <input
+                                    type="number"
+                                    value={settings[id]}
+                                    onChange={(e) => {
+                                        const value = Math.max(min, Number(e.target.value) || min);
+                                        handleChange(id, value);
+                                    }}
+                                    min={min}
+                                    max={max}
+                                    step={step}
+                                    className="absolute right-0 top-0 w-16 h-7 px-2
+                    text-right text-sm
                     bg-gray-100 dark:bg-slate-800
                     border border-gray-200 dark:border-slate-700
-                    rounded-lg outline-none
-                    text-gray-900 dark:text-slate-50
-                    transition-all duration-200
+                    rounded-md outline-none
                     focus:ring-2 focus:ring-blue-500/30
-                    focus:border-blue-500;
-                }
-            `}</style>
-        </>
+                    transition-all"
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <DialogFooter>
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 text-sm font-medium rounded-lg
+              text-white dark:text-slate-50
+              bg-blue-500 dark:bg-blue-600
+              hover:bg-blue-600 dark:hover:bg-blue-700
+              focus:ring-2 focus:ring-blue-500/50
+              transition-colors"
+                    >
+                        完成
+                    </button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 };
 
