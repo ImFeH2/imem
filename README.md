@@ -35,7 +35,7 @@ Try the live demo at: [https://www.feh2.im/imem/](https://www.feh2.im/imem/)
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/imem.git
+git clone https://github.com/imfeh2/imem.git
 cd imem
 ```
 
