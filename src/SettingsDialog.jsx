@@ -5,10 +5,9 @@ import ColorSelector from './ColorSelector';
 
 const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
     const handleChange = (key, value, min, max) => {
-        const boundedValue = Math.max(min, Math.min(max || min * 20, value));
         onSettingsChange({
             ...settings,
-            [key]: boundedValue
+            [key]: value
         });
     };
 
@@ -85,7 +84,7 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
 
                         {/* Existing Settings */}
                         {[
-                            {id: 'length', label: '初始长度', min: 1, step: 1},
+                            {id: 'length', label: '初始长度', min: 1, max: 100, step: 1},
                             {id: 'interval', label: '显示间隔 (ms)', min: 100, max: 6000, step: 100},
                             {id: 'increaseBy', label: '正确增加长度', min: 1, step: 1},
                             {id: 'decreaseBy', label: '错误减少长度', min: 1, step: 1},
