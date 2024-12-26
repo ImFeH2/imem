@@ -10,8 +10,7 @@ Try the live demo at: [https://www.feh2.im/imem/](https://www.feh2.im/imem/)
 ![Success Preview](preview/success.gif)
 ![Fail Preview](preview/fail.gif)
 
-![Homepage Preview](preview/homepage.png)
-![Settings1 Preview](preview/settings1.png)
+![Settings Preview](preview/settings1.png)
 ![Settings2 Preview](preview/settings2.png)
 
 ## ✨ Features
