@@ -2,12 +2,12 @@ import React from 'react';
 import {Check} from 'lucide-react';
 
 const fonts = [
-    {id: 'default', name: '默认字体', value: 'system-ui'},
-    {id: 'digital', name: '数字显示', value: "'Digital-7', monospace"},
-    {id: 'lcd', name: 'LCD风格', value: "'LCD', monospace"},
-    {id: 'retro', name: '复古像素', value: "'Press Start 2P', cursive"},
-    {id: 'handwritten', name: '手写体', value: "'Permanent Marker', cursive"},
-    {id: 'neon', name: '霓虹灯', value: "'Yellowtail', cursive"}
+    {id: 'default', name: 'Default Font', value: 'system-ui'},
+    {id: 'digital', name: 'Digital Display', value: "'Digital-7', monospace"},
+    {id: 'lcd', name: 'LCD Style', value: "'LCD', monospace"},
+    {id: 'retro', name: 'Retro Pixel', value: "'Press Start 2P', cursive"},
+    {id: 'handwritten', name: 'Handwritten', value: "'Permanent Marker', cursive"},
+    {id: 'neon', name: 'Neon', value: "'Yellowtail', cursive"}
 ];
 
 const FontSelector = ({value = 'system-ui', onChange}) => {

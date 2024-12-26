@@ -37,7 +37,7 @@ const App = () => {
     const [gameState, setGameState] = useState('idle');
     const [currentNumber, setCurrentNumber] = useState('');
     const [displayNumber, setDisplayNumber] = useState('');
-    const [displayKey, setDisplayKey] = useState(0); // 新增：用于强制重新渲染
+    const [displayKey, setDisplayKey] = useState(0); // Add: Used for forcing re-render
     const [userInput, setUserInput] = useState('');
     const [stats, setStats] = useState(() => {
         const saved = localStorage.getItem('memoryGameStats');
@@ -55,13 +55,13 @@ const App = () => {
 
     useEffect(() => {
         const handleKeyPress = (e) => {
-            // 防止在输入状态下触发快捷键
+            // Prevent shortcuts when in input state
             if (e.target.tagName === 'INPUT') {
                 return;
             }
 
             if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault(); // 防止页面滚动
+                e.preventDefault(); // Prevent page scroll
                 switch (gameState) {
                     case 'idle':
                         startGame();
@@ -85,12 +85,12 @@ const App = () => {
         return Array.from({length}, () => Math.floor(Math.random() * 10)).join('');
     };
 
-    // 修改：显示单个数字的函数
+    // Function to display single digit
     const showDigit = async (digit) => {
-        setDisplayNumber(''); // 先清空
-        await new Promise(resolve => setTimeout(resolve, 50)); // 短暂延迟
-        setDisplayNumber(digit); // 设置新数字
-        setDisplayKey(prev => prev + 1); // 增加 key 强制重新渲染
+        setDisplayNumber(''); // Clear first
+        await new Promise(resolve => setTimeout(resolve, 50)); // Brief delay
+        setDisplayNumber(digit); // Set new number
+        setDisplayKey(prev => prev + 1); // Increment key to force re-render
     };
 
     const startGame = async () => {
@@ -115,7 +115,7 @@ const App = () => {
         setGameState('input');
     };
 
-    // 检查答案
+    // Check answer
     const checkAnswer = () => {
         const correct = userInput === currentNumber;
 
@@ -150,7 +150,7 @@ const App = () => {
         setGameState('result');
     };
 
-    // 重置游戏
+    // Reset game
     const resetGame = () => {
         setGameState('idle');
         setUserInput('');
@@ -168,14 +168,14 @@ const App = () => {
                             <StatsPanel stats={stats}/>
                             <div className="flex flex-col items-center gap-2">
                                 <Button onClick={startGame} className="relative">
-                                    开始游戏
+                                    Start Game
                                 </Button>
                                 <div className="flex items-center gap-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
                                     <kbd
                                         className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
-                                        空格键
+                                        Space
                                     </kbd>
-                                    <span>开始游戏</span>
+                                    <span>Start Game</span>
                                 </div>
                             </div>
                         </div>
@@ -223,14 +223,14 @@ const App = () => {
                                     onClick={resetGame}
                                     className="px-8 py-3 text-lg"
                                 >
-                                    继续挑战
+                                    Continue Challenge
                                 </Button>
                                 <div className="flex items-center gap-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
                                     <kbd
                                         className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
-                                        空格键
+                                        Space
                                     </kbd>
-                                    <span>继续挑战</span>
+                                    <span>Continue Challenge</span>
                                 </div>
                             </div>
                         </div>

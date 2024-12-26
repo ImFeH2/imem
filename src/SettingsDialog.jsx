@@ -46,7 +46,7 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
             >
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-800">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-50">
-                        游戏设置
+                        Game Settings
                     </h2>
                     <button
                         onClick={onClose}
@@ -63,7 +63,7 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                         {/* Font Selection */}
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-gray-700 dark:text-slate-300">
-                                数字字体
+                                Number Font
                             </label>
                             <FontSelector
                                 value={settings.fontFamily}
@@ -74,7 +74,7 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                         {/* Color Selection */}
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-gray-700 dark:text-slate-300">
-                                数字颜色
+                                Number Color
                             </label>
                             <ColorSelector
                                 value={settings.numberColor}
@@ -84,11 +84,11 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
 
                         {/* Existing Settings */}
                         {[
-                            {id: 'length', label: '初始长度', min: 1, max: 100, step: 1},
-                            {id: 'interval', label: '显示间隔 (ms)', min: 100, max: 6000, step: 100},
-                            {id: 'increaseBy', label: '正确增加长度', min: 1, step: 1},
-                            {id: 'decreaseBy', label: '错误减少长度', min: 1, step: 1},
-                            {id: 'fontSize', label: '字体大小', min: 12, max: 2000, step: 1}
+                            {id: 'length', label: 'Initial Length', min: 1, max: 100, step: 1},
+                            {id: 'interval', label: 'Display Interval (ms)', min: 100, max: 6000, step: 100},
+                            {id: 'increaseBy', label: 'Increase Length on Correct', min: 1, step: 1},
+                            {id: 'decreaseBy', label: 'Decrease Length on Wrong', min: 1, step: 1},
+                            {id: 'fontSize', label: 'Font Size', min: 12, max: 2000, step: 1}
                         ].map(({id, label, min, max, step}) => (
                             <div key={id} className="space-y-2">
                                 <div className="flex justify-between items-center gap-4 mb-2">
@@ -137,7 +137,7 @@ const SettingsDialog = ({settings, onSettingsChange, open, onClose}) => {
                             dark:bg-blue-600 dark:hover:bg-blue-700
                             text-white"
                     >
-                        完成
+                        Done
                     </button>
                 </div>
             </div>
