@@ -2,10 +2,10 @@ import React from 'react';
 import {Check} from 'lucide-react';
 
 const fonts = [
-    {id: 'default', name: 'Default Font', value: 'system-ui'},
-    {id: 'digital', name: 'Digital Display', value: "'Digital-7', monospace"},
-    {id: 'lcd', name: 'LCD Style', value: "'LCD', monospace"},
-    {id: 'retro', name: 'Retro Pixel', value: "'Press Start 2P', cursive"},
+    {id: 'default', name: 'System', value: 'system-ui'},
+    {id: 'mono', name: 'Monospace', value: "'Roboto Mono', monospace"},
+    {id: 'display', name: 'Display', value: "'Bebas Neue', sans-serif"},
+    {id: 'retro', name: 'Pixel', value: "'Press Start 2P', cursive"},
     {id: 'handwritten', name: 'Handwritten', value: "'Permanent Marker', cursive"},
     {id: 'neon', name: 'Neon', value: "'Yellowtail', cursive"}
 ];

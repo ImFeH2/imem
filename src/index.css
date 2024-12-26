@@ -1,33 +1,11 @@
-/* 复古像素字体 */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-/* 手写体 */
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
-
-/* 霓虹灯字体 */
-@import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
-
+/* Import fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Permanent+Marker&family=Yellowtail&family=Roboto+Mono&family=Bebas+Neue&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 数字显示字体 */
-@font-face {
-    font-family: 'Digital-7';
-    src: url('https://cdn.jsdelivr.net/npm/digital-7@1.0.0/digital-7.ttf') format('truetype');
-    font-display: swap;
-}
-
-/* LCD风格字体 */
-@font-face {
-    font-family: 'LCD';
-    src: url('https://cdn.jsdelivr.net/npm/lcd-font@1.0.0/LCD.ttf') format('truetype');
-    font-display: swap;
-}
-
-
-/* 添加字体相关的动画效果 */
+/* Add font-related animation effects */
 @keyframes glow {
     from {
         text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff;
@@ -37,7 +15,7 @@
     }
 }
 
-/* 为霓虹灯字体添加发光效果 */
+/* Add glow effect for neon font */
 [style*="Yellowtail"] {
     animation: glow 1s ease-in-out infinite alternate;
 }
